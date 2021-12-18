@@ -78,5 +78,5 @@ class Vendor(User):
     ]
 
     industry_category = models.CharField(max_length=3,
-        choices=INDUSTRY_CATEGORY_CHOICES,)
+        choices=INDUSTRY_CATEGORY_CHOICES)
     
