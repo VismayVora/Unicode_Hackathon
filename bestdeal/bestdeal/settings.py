@@ -15,6 +15,8 @@ import accounts
 import os
 import environ
 
+import django_heroku
+
 env = environ.Env()
 environ.Env.read_env()
 
@@ -154,3 +156,5 @@ EMAIL_HOST_PASSWORD = env('PASSWORD')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+django_heroku.settings(locals())
