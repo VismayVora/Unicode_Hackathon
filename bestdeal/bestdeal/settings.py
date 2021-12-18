@@ -140,6 +140,9 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 STATIC_URL = '/static/'
 
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_URL = '/media/'
+
 #Email Verification
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
