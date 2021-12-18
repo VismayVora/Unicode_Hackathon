@@ -18,3 +18,5 @@ venv.bak/
 # VS Code settings
 .vscode
 .idea
+
+.DS_Store

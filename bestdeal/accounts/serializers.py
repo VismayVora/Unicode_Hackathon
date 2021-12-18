@@ -38,7 +38,7 @@ class VendorRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Vendor
-        fields = ['email', 'name', 'phone_no', 'industry']
+        fields = ['name', 'email','password', 'phone_no', 'industry_category']
 
     # To validate data received
     def validate(self, attrs):
