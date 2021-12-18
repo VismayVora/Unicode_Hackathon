@@ -1,4 +1,5 @@
-from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.base_user import BaseUserManager
 from django.db import models
 from rest_framework.authtoken.models import Token
 
@@ -33,12 +34,12 @@ class UserManager(BaseUserManager):
             raise ValueError('Superuser must have is_superuser=True.')
         return self.create_user(email, password, **extra_fields)
 
-class User(AbstractBaseUser):
+class User(AbstractUser):
     username=None
 
     # extra fields
     email = models.EmailField(("Email Address"),primary_key=True)
-    name = models.CharField()
+    name = models.CharField(max_length = 30)
     is_client = models.BooleanField(default=False)
     is_vendor = models.BooleanField(default=False)
 
@@ -56,10 +57,9 @@ class User(AbstractBaseUser):
         token = Token.objects.get(user=User.objects.get(self.id))
         return token
 
-class Vendor(models.Model):
+class Vendor(User):
 
     phone_no = models.BigIntegerField(unique= True)
-    user = models.OneToOneField(User, on_delete= models.CASCADE, primary_key= True)
 
     # Choices for industry categories
     CLOTH_TEXT = 'CT'
@@ -77,6 +77,6 @@ class Vendor(models.Model):
         (WOOD_LEATHER_PAPER, 'Wood, Leather and Paper')
     ]
 
-    industry_category = models.CharField(max_length=2,
+    industry_category = models.CharField(max_length=3,
         choices=INDUSTRY_CATEGORY_CHOICES,)
     
