@@ -15,6 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from django.conf.urls import url
+from request_quote import views 
+
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'Items', views.ItemDetails)
 
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
@@ -34,6 +41,7 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
+    url('', include(router.urls)),
     path('admin/', admin.site.urls),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),

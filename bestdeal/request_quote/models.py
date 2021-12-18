@@ -1,11 +1,15 @@
 from django.db import models
 from django.db.models.fields import DateTimeField
+from django.conf import settings
+
+from accounts.models import Vendor
 
 # Create your models here.
 
 class RequirementsDoc(models.Model):
 
     # Adding Fields related to the request for quotations doc
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -25,6 +29,7 @@ class Item(models.Model):
 
     # Foreign key connecting with RequirementsDoc
     req_doc = models.ForeignKey(RequirementsDoc, on_delete= models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
 
     # Choices for industry categories
     CLOTH_TEXT = 'CT'
@@ -51,6 +56,7 @@ class Quote(models.Model):
     item = models.ForeignKey(Item, on_delete= models.CASCADE)
 
     # Other fields related to Quote
+    owner=models.ForeignKey(Vendor,on_delete=models.CASCADE)
     price = models.BigIntegerField()
     delivery_by = DateTimeField()
     quantity_provided = models.IntegerField()
