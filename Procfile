@@ -1,1 +1,1 @@
-web: gunicorn --pythonpath bestdeal bestdeal.wsgi
+web: gunicorn --pythonpath bestdeal bestdeal.wsgi --log-file -
