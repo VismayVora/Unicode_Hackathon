@@ -8,12 +8,13 @@ from .utils import Util
 from django.contrib.auth import authenticate,login
 
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status,permissions
 
 from .models import User
 
 # Create your views here.
 class ClientRegisterAPI(GenericAPIView):
+	permission_classes = [permissions.AllowAny]
 	
 	serializer_class = ClientRegisterSerializer
 	
@@ -31,6 +32,7 @@ class ClientRegisterAPI(GenericAPIView):
 		return Response({'Success':'Your account is successfully created,please check your mail for verification.'},status=status.HTTP_201_CREATED)
 
 class VendorRegisterAPI(GenericAPIView):
+	permission_classes = [permissions.AllowAny]
 	
 	serializer_class = VendorRegisterSerializer
 	
@@ -48,7 +50,7 @@ class VendorRegisterAPI(GenericAPIView):
 		return Response({'Success':'Your account is successfully created,please check your mail for verification.'},status=status.HTTP_201_CREATED)
 
 class LoginAPI(GenericAPIView):
-	
+	permission_classes = [permissions.AllowAny]
 	serializer_class = LoginSerializer
 	
 	def post(self,request,*args,**kwargs ):
@@ -63,6 +65,7 @@ class LoginAPI(GenericAPIView):
 		return Response('Invalid Credentials',status = status.HTTP_404_NOT_FOUND)
 
 class EmailVerify(GenericAPIView):
+	permission_classes = [permissions.AllowAny]
 	def get(self,request):
 		token = request.GET.get('token')
 		user = User.objects.get(auth_token = token)

@@ -15,7 +15,7 @@ class RequirementsDocSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RequirementsDoc
-        fields = ['id','owner','name', 'created_at', 'updated_at', 'deadline']
+        fields = ['id','owner','name', 'created_at', 'deadline']
 
 
 class QuoteSerializer(serializers.ModelSerializer):
@@ -23,4 +23,4 @@ class QuoteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Quote
-        fields = ['id','owner','price', 'item', 'delivery_by', 'message', 'quantity_provided', 'units']
+        fields = ['id','owner','created_at','updated_at','price', 'item', 'delivery_by', 'message', 'quantity_provided', 'units']

@@ -14,7 +14,6 @@ class RequirementsDoc(models.Model):
     # Adding Fields related to the request for quotations doc
     name = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
     deadline = models.DateTimeField()
 
     def __str__(self):
@@ -63,3 +62,5 @@ class Quote(models.Model):
     quantity_provided = models.IntegerField()
     units = models.CharField(max_length=20)
     message = models.CharField(max_length=200, blank= True, null= True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
