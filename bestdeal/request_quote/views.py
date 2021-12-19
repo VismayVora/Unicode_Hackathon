@@ -1,4 +1,5 @@
 from re import S
+from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import render
 from rest_framework import viewsets,permissions
 from rest_framework.serializers import Serializer
@@ -8,6 +9,8 @@ from .serializers import RequirementsDocSerializer,ItemSerializer,QuoteSerialize
 
 from rest_framework.response import Response
 from rest_framework import status
+
+#from whatsapp import send_message
 
 
 class RequirementsDocView(viewsets.ModelViewSet):
@@ -36,4 +39,5 @@ class ItemsAPI(APIView):
 		if not serializer.is_valid():
 			return Response(serializer.errors, status= status.HTTP_403_FORBIDDEN)
 		serializer.save()
+		#print(get_current_site(request).domain)
 		return Response(serializer.data, status= status.HTTP_201_CREATED)

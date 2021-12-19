@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
 from django.db import models
 from rest_framework.authtoken.models import Token
+from phonenumber_field.modelfields import PhoneNumberField
 
 # Create your models here.
 class UserManager(BaseUserManager):
@@ -59,7 +60,7 @@ class User(AbstractUser):
 
 class Vendor(User):
 
-    phone_no = models.BigIntegerField(unique= True)
+    phone_no = PhoneNumberField(unique= True)
 
     # Choices for industry categories
     CLOTH_TEXT = 'CT'
