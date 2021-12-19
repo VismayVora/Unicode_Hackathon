@@ -51,4 +51,4 @@ class VendorRegisterSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data['is_active'] = False
         validated_data['is_vendor'] = True
-        return User.objects.create_user(**validated_data)  
+        return Vendor.objects.create_user(**validated_data)  

@@ -59,7 +59,7 @@ class LoginAPI(GenericAPIView):
 			login(request,user)
 			serializer = self.serializer_class(user)
 			token = Token.objects.get(user=user)
-			return Response({'token' : token.key,'email' : user.email},status = status.HTTP_200_OK)
+			return Response('Account Verified', status=status.HTTP_200_OK)
 		return Response('Invalid Credentials',status = status.HTTP_404_NOT_FOUND)
 
 class EmailVerify(GenericAPIView):
@@ -69,4 +69,4 @@ class EmailVerify(GenericAPIView):
 		if not user.is_active:
 			user.is_active = True
 			user.save()
-		return Response('Account Verified', status=status.HTTP_200_OK)
+		return Response({'token' : token,'email' : user.email},status = status.HTTP_200_OK)
