@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'accounts',
     'request_quote',
+    'phonenumber_field',
 
 ]
 

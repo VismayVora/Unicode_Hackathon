@@ -14,6 +14,7 @@ class RequirementsDocView(viewsets.ModelViewSet):
     queryset = RequirementsDoc.objects.all()
     serializer_class = RequirementsDocSerializer
 
+
     def get_queryset(self):
         return RequirementsDoc.objects.filter(owner = self.request.user)
     
@@ -32,7 +33,7 @@ class ItemsAPI(APIView):
 
 	def post(self, request, pk):
 		request.data['req_doc'] = RequirementsDoc.objects.get(id= pk).id
-		serializer = ItemSerializer(data= request.data, many=True)
+		serializer = ItemSerializer(data= request.data)
 		if not serializer.is_valid():
 			return Response(serializer.errors, status= status.HTTP_403_FORBIDDEN)
 		serializer.save()
