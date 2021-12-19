@@ -21,7 +21,8 @@ from request_quote import views
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
-router.register(r'Items', views.ItemDetails)
+# router.register(r'items', views.RequirementDoc_Item)
+router.register(r'req-doc', views.RequirementsDocView)
 
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
@@ -42,6 +43,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     url('', include(router.urls)),
+    path('req-doc/<int:pk>/items/', views.ItemsAPI.as_view()),
     path('admin/', admin.site.urls),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
