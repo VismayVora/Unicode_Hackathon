@@ -8,8 +8,10 @@ from accounts.models import Vendor
 
 class RequirementsDoc(models.Model):
 
-    # Adding Fields related to the request for quotations doc
+    #Foreign Keys
     owner = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+
+    # Adding Fields related to the request for quotations doc
     name = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -27,9 +29,8 @@ class Item(models.Model):
     quantity = models.IntegerField()
     units = models.CharField(max_length=20)
 
-    # Foreign key connecting with RequirementsDoc
+    # Foreign keys
     req_doc = models.ForeignKey(RequirementsDoc, on_delete= models.CASCADE)
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
 
     # Choices for industry categories
     CLOTH_TEXT = 'CT'
@@ -52,11 +53,11 @@ class Item(models.Model):
 
 class Quote(models.Model):
 
-    # Foreign key connecting with Item
+    # Foreign keys
     item = models.ForeignKey(Item, on_delete= models.CASCADE)
+    owner=models.ForeignKey(Vendor,on_delete=models.CASCADE)
 
     # Other fields related to Quote
-    owner=models.ForeignKey(Vendor,on_delete=models.CASCADE)
     price = models.BigIntegerField()
     delivery_by = DateTimeField()
     quantity_provided = models.IntegerField()
