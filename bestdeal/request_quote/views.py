@@ -38,6 +38,7 @@ class ItemsAPI(APIView):
 	def get(self, request, pk):
 		req_doc = RequirementsDoc.objects.get(id= pk)
 		if(self.request.user.is_client == False and datetime.date.today() - req_doc.deadline > datetime.timedelta(0)):
+			#Ensures that a vendor only gets to see the items in the rquirements doc if the deadline has not passed.
 			return JsonResponse({"Message": "The deadline to provide quotations for this document has passed!"})
 		else:
 			items_objs = Item.objects.filter(req_doc =req_doc.id)
@@ -47,24 +48,27 @@ class ItemsAPI(APIView):
 	def post(self, request, pk):
 		req_doc = RequirementsDoc.objects.get(id= pk)
 		for i in range(len(request.data)):
-			request.data[i]['req_doc'] = pk  #Linking the item to the current req_doc by adding its pk.
+			request.data[i]['req_doc'] = pk  # Linking the item to the current req_doc by adding its pk.
 		serializer = ItemSerializer(data= request.data, many=True)
 		if not serializer.is_valid():
 			return Response(serializer.errors, status= status.HTTP_403_FORBIDDEN)
 		serializer.save(req_doc = req_doc)
+
 		industries = []  # Created an empty list to filter the vendors against the industry to which the item belongs
-		vendors_list = []
+		vendors_list = [] # Filtered vendors will be stored in this list.
+
 		for i in range(len(request.data)):
 			industries.append(request.data[i]['industry_category'])
-		print(industries)
+		
 		for industry in industries:
 			vendors = Vendor.objects.filter(industry_category=industry)
 			vendors_list.append(vendors)
-		print(vendors_list)
+
 		for vendors in vendors_list:
 			for vendor in vendors:
 				print(vendor)
 				send_message(request, vendor)
+				
 		return Response(serializer.data, status= status.HTTP_201_CREATED)
 
 class VendorQuotesView(viewsets.ModelViewSet):
