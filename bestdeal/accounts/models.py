@@ -59,8 +59,9 @@ class User(AbstractUser):
         return token
 
 class Vendor(User):
-
-    phone_no = PhoneNumberField(unique= True)
+    # Change to unique=True after testing
+    
+    phone_no = PhoneNumberField() # Accepts phone numbers in the internationally standard E.164 format. Will be useful when passing to whatsapp API. 
 
     # Choices for industry categories
     CLOTH_TEXT = 'CT'
@@ -80,4 +81,3 @@ class Vendor(User):
 
     industry_category = models.CharField(max_length=3,
         choices=INDUSTRY_CATEGORY_CHOICES)
-    

@@ -12,6 +12,7 @@ class ItemSerializer(serializers.ModelSerializer):
 
 class RequirementsDocSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.email')
+    deadline = serializers.DateField(format="%d-%m-%Y", input_formats=['%d-%m-%Y', 'iso-8601'])
 
     class Meta:
         model = RequirementsDoc
