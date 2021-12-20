@@ -43,9 +43,6 @@ class ItemsAPI(APIView):
 			items_objs = Item.objects.filter(req_doc =req_doc.id)
 			serializer = ItemSerializer(items_objs, many = True)
 			return Response(serializer.data, status= status.HTTP_200_OK)
-			
-
-
 
 	def post(self, request, pk):
 		req_doc = RequirementsDoc.objects.get(id= pk)
@@ -70,22 +67,17 @@ class ItemsAPI(APIView):
 				send_message(request, vendor)
 		return Response(serializer.data, status= status.HTTP_201_CREATED)
 
-class QuotesView(viewsets.ModelViewSet):
+class VendorQuotesView(viewsets.ModelViewSet):
 	queryset = Quote.objects.all()
 	serializer_class = QuoteSerializer
 	permission_classes = [IsVendorOrReadOnly]
 
 	def get_queryset(self):
-		queryset = Quote.objects.all()
-		item_id = self.request.query_params.get('item')
-		if item_id is not None:
-			queryset = queryset.filter(item=item_id)
+		if self.request.user.is_vendor:
+			queryset = Quote.objects.filter(owner = self.request.user)
 		return queryset
     	
 	def perform_create(self,serializer):
-		item_id = self.request.query_params.get('item')
-		item = Item.objects.get(id = item_id)
 		owner = Vendor.objects.get(email = self.request.user.email)
 		serializer.save(owner = owner)
 
-		
