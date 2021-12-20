@@ -58,9 +58,9 @@ class Quote(models.Model):
 
     # Other fields related to Quote
     price = models.BigIntegerField()
-    delivery_by = DateTimeField()
+    delivery_by = models.DateField()
     quantity_provided = models.IntegerField()
     units = models.CharField(max_length=20)
     message = models.CharField(max_length=200, blank= True, null= True)
-    created_at = models.DateTimeField(auto_now_add=True,null=True)
-    updated_at = models.DateTimeField(auto_now=True,null=True)
+    created_at = models.DateField(auto_now_add=True, null = True)
+    updated_at = models.DateField(auto_now=True, null = True)
