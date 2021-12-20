@@ -2,8 +2,13 @@ from re import S
 from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import render
 from rest_framework import viewsets,permissions
+from rest_framework.decorators import permission_classes
 from rest_framework.serializers import Serializer
 from rest_framework.views import APIView
+
+from accounts.models import Vendor
+
+from .custompermissions import IsClientOrReadOnly, IsVendorOrReadOnly
 from .models import RequirementsDoc,Item,Quote
 from .serializers import RequirementsDocSerializer,ItemSerializer,QuoteSerializer
 from .whatsapp import send_message
@@ -24,6 +29,7 @@ class RequirementsDocView(viewsets.ModelViewSet):
 
 
 class ItemsAPI(APIView):
+	permission_classes = [IsClientOrReadOnly]
 
 	def get(self, request, pk):
 		req_doc = RequirementsDoc.objects.get(id= pk)
@@ -41,3 +47,23 @@ class ItemsAPI(APIView):
 			return Response(serializer.errors, status= status.HTTP_403_FORBIDDEN)
 		serializer.save()
 		return Response(serializer.data, status= status.HTTP_201_CREATED)
+
+class QuotesView(viewsets.ModelViewSet):
+	queryset = Quote.objects.all()
+	serializer_class = QuoteSerializer
+	permission_classes = [IsVendorOrReadOnly]
+
+	def get_queryset(self):
+		queryset = Quote.objects.all()
+		item_id = self.request.query_params.get('item')
+		if item_id is not None:
+			queryset = queryset.filter(item=item_id)
+		return queryset
+    	
+	def perform_create(self,serializer):
+		item_id = self.request.query_params.get('item')
+		item = Item.objects.get(id = item_id)
+		owner = Vendor.objects.get(email = self.request.user.email)
+		serializer.save(owner = owner, item = item)
+
+		

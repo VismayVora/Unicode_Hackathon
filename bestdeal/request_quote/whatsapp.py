@@ -4,10 +4,13 @@ from django.urls import reverse
 
 
 def send_message(request, user):
+    
     url = "https://api.wassenger.com/v1/messages"
+
     current_site = get_current_site(request).domain
     relative_link = reverse('items-api')
     link = 'http://'+current_site+relative_link
+
     payload = {
         "phone": str(user.number),
         "message": "Hello {user.name}, There is a new requirement posted on BEST DEAL which might interest you. Click on this link: {link}"

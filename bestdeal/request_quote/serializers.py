@@ -20,6 +20,7 @@ class RequirementsDocSerializer(serializers.ModelSerializer):
 
 class QuoteSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.email')
+    item = serializers.ReadOnlyField(source = 'item.id')
 
     class Meta:
         model = Quote
