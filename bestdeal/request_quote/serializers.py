@@ -24,7 +24,8 @@ class RequirementsDocSerializer(serializers.ModelSerializer):
 class QuoteSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.email')
     owner_name = serializers.ReadOnlyField(source='owner.name')
+    delivery_by = serializers.DateField(format="%d-%m-%Y", input_formats=['%d-%m-%Y', 'iso-8601'])
 
     class Meta:
         model = Quote
-        fields = ['id','owner', 'owner_name','created_at','updated_at','price', 'item', 'delivery_by', 'message', 'quantity_provided', 'units']
+        fields = ['id','owner', 'owner_name','created_at','updated_at','price', 'item', 'delivery_by', 'message', 'quantity_provided', 'units','selected']

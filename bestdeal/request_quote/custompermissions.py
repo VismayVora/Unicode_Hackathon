@@ -19,3 +19,9 @@ class IsVendor(permissions.BasePermission):
         # Vendor flag based permission
         return request.user.is_vendor == True
 
+class IsClient(permissions.BasePermission):
+
+    def has_permission(self, request, view):
+
+        # Client flag based permission
+        return request.user.is_client == True
