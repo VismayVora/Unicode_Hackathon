@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 
 from accounts.models import Vendor
 
-from .custompermissions import IsClientOrReadOnly, IsVendorOrReadOnly
+from .custompermissions import IsClientOrReadOnly, IsVendor
 from .models import RequirementsDoc,Item,Quote
 from .serializers import RequirementsDocSerializer,ItemSerializer,QuoteSerializer
 from .whatsapp import send_message
@@ -70,11 +70,10 @@ class ItemsAPI(APIView):
 class VendorQuotesView(viewsets.ModelViewSet):
 	queryset = Quote.objects.all()
 	serializer_class = QuoteSerializer
-	permission_classes = [IsVendorOrReadOnly]
+	permission_classes = [IsVendor]
 
 	def get_queryset(self):
-		if self.request.user.is_vendor:
-			queryset = Quote.objects.filter(owner = self.request.user)
+		queryset = Quote.objects.filter(owner = self.request.user)
 		return queryset
     	
 	def perform_create(self,serializer):
