@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 
 from accounts.models import Vendor
 
-from .custompermissions import IsClientOrReadOnly, IsVendor
+from .custompermissions import IsClientOrReadOnly, IsVendor,IsClient
 from .models import RequirementsDoc,Item,Quote
 from .serializers import RequirementsDocSerializer,ItemSerializer,QuoteSerializer
 from .whatsapp import send_message
@@ -47,12 +47,12 @@ class ItemsAPI(APIView):
 	def post(self, request, pk):
 		req_doc = RequirementsDoc.objects.get(id= pk)
 		for i in range(len(request.data)):
-			request.data[i]['req_doc'] = req_doc.id
+			request.data[i]['req_doc'] = pk  #Linking the item to the current req_doc by adding its pk.
 		serializer = ItemSerializer(data= request.data, many=True)
 		if not serializer.is_valid():
 			return Response(serializer.errors, status= status.HTTP_403_FORBIDDEN)
 		serializer.save(req_doc = req_doc)
-		industries = []
+		industries = []  # Created an empty list to filter the vendors against the industry to which the item belongs
 		vendors_list = []
 		for i in range(len(request.data)):
 			industries.append(request.data[i]['industry_category'])
@@ -80,3 +80,18 @@ class VendorQuotesView(viewsets.ModelViewSet):
 		owner = Vendor.objects.get(email = self.request.user.email)
 		serializer.save(owner = owner)
 
+class ClientQuotesView(APIView):
+	permission_classes = [IsClient]
+	
+	def get(self,request,pk):
+		quote_objs = Quote.objects.filter(item__req_doc=pk)
+		serializer = QuoteSerializer(quote_objs, many = True)
+		return Response(serializer.data, status= status.HTTP_200_OK)
+	
+	def patch(self,request):
+		data = request.data
+		quote_obj = Quote.objects.get(id = data['id'])
+		serializer = QuoteSerializer(quote_obj,data=data,partial=True)
+		if serializer.is_valid():
+			serializer.save()
+		return Response(serializer.data, status= status.HTTP_201_CREATED)
