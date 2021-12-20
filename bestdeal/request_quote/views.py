@@ -95,3 +95,10 @@ class ClientQuotesView(APIView):
 		if serializer.is_valid():
 			serializer.save()
 		return Response(serializer.data, status= status.HTTP_201_CREATED)
+
+class FinalList(APIView):
+
+	def get(self, request, pk):
+		quotes_objs = Quote.objects.filter(item__req_doc = pk).filter(selected = True)
+		serializer = QuoteSerializer(quotes_objs, many = True)
+		return Response(serializer.data, status= status.HTTP_200_OK)
