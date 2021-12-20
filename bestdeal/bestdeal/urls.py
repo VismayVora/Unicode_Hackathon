@@ -23,6 +23,7 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 # router.register(r'items', views.RequirementDoc_Item)
 router.register(r'req-doc', views.RequirementsDocView)
+router.register(r'quote', views.QuotesView)
 
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
