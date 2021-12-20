@@ -64,7 +64,6 @@ class Quote(models.Model):
     message = models.CharField(max_length=200, blank= True, null= True)
     created_at = models.DateField(auto_now_add=True, null = True)
     updated_at = models.DateField(auto_now=True, null = True)
-    selected = models.BooleanField(default=False)
 
     class Meta:
         unique_together = ['item', 'owner']
