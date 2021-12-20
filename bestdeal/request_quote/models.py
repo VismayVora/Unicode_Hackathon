@@ -13,8 +13,8 @@ class RequirementsDoc(models.Model):
 
     # Adding Fields related to the request for quotations doc
     name = models.CharField(max_length=100)
-    created_at = models.DateTimeField(auto_now_add=True)
-    deadline = models.DateTimeField()
+    created_at = models.DateField(auto_now_add=True)
+    deadline = models.DateField()
 
     def __str__(self):
         return self.name

@@ -12,8 +12,8 @@ def send_message(request, user):
     link = 'http://'+current_site+relative_link
 
     payload = {
-        "phone": str(user.number),
-        "message": "Hello {user.name}, There is a new requirement posted on BEST DEAL which might interest you. Click on this link: {link}"
+        "phone": str(user.phone_no),
+        "message": f"Hello {user.name}, There is a new requirement posted on BEST DEAL which might interest you. Click on this link: {link}"
     }
     headers = {
         "Content-Type": "application/json",
