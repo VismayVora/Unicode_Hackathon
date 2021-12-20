@@ -49,13 +49,13 @@ class ItemsAPI(APIView):
 
 
 	def post(self, request, pk):
-		req_doc = RequirementsDoc.objects.get(id= pk).id
+		req_doc = RequirementsDoc.objects.get(id= pk)
 		for i in range(len(request.data)):
-			request.data[i]['req_doc'] = req_doc
+			request.data[i]['req_doc'] = req_doc.id
 		serializer = ItemSerializer(data= request.data, many=True)
 		if not serializer.is_valid():
 			return Response(serializer.errors, status= status.HTTP_403_FORBIDDEN)
-		serializer.save()
+		serializer.save(req_doc = req_doc)
 		industries = []
 		vendors_list = []
 		for i in range(len(request.data)):
@@ -68,7 +68,7 @@ class ItemsAPI(APIView):
 		for vendors in vendors_list:
 			for vendor in vendors:
 				print(vendor)
-				send_message(request,vendor)
+				send_message(request, vendor)
 		return Response(serializer.data, status= status.HTTP_201_CREATED)
 
 class QuotesView(viewsets.ModelViewSet):
@@ -87,6 +87,6 @@ class QuotesView(viewsets.ModelViewSet):
 		item_id = self.request.query_params.get('item')
 		item = Item.objects.get(id = item_id)
 		owner = Vendor.objects.get(email = self.request.user.email)
-		serializer.save(owner = owner, item = item)
+		serializer.save(owner = owner)
 
 		

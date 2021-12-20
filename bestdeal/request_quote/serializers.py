@@ -4,10 +4,12 @@ from .models import *
 
 
 class ItemSerializer(serializers.ModelSerializer):
+    req_doc_name = serializers.ReadOnlyField(source = 'req_doc.name')
+    req_doc_deadline = serializers.ReadOnlyField(source = 'req_doc.deadline')
 
     class Meta:
         model = Item
-        fields = ['id', 'max_budget', 'name', 'description', 'quantity', 'units', 'industry_category', 'req_doc']
+        fields = ['id', 'max_budget', 'name', 'description', 'quantity', 'units', 'industry_category', 'req_doc', 'req_doc_name', 'req_doc_name']
 
 
 class RequirementsDocSerializer(serializers.ModelSerializer):
@@ -21,7 +23,6 @@ class RequirementsDocSerializer(serializers.ModelSerializer):
 
 class QuoteSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.email')
-    item = serializers.ReadOnlyField(source = 'item.id')
 
     class Meta:
         model = Quote

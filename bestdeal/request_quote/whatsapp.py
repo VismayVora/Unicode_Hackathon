@@ -7,13 +7,14 @@ def send_message(request, user):
     
     url = "https://api.wassenger.com/v1/messages"
 
-    current_site = get_current_site(request).domain
-    relative_link = reverse('items-api')
-    link = 'http://'+current_site+relative_link
+    # current_site = get_current_site(request).domain
+    # relative_link = f"/req-doc/{pk}/items/"
+    # link = 'http://'+current_site+relative_link
+    link = request.build_absolute_uri()
 
     payload = {
         "phone": str(user.phone_no),
-        "message": f"Hello {user.name}, There is a new requirement posted on BEST DEAL which might interest you. Click on this link: {link}"
+        "message": f"Hello {user.name}, There is a new requirement posted on BEST DEAL which might interest you. Copy this link and paste on a browser: {link}"
     }
     headers = {
         "Content-Type": "application/json",
