@@ -9,7 +9,7 @@ class ItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Item
-        fields = ['id', 'max_budget', 'name', 'description', 'quantity', 'units', 'industry_category', 'req_doc', 'req_doc_name', 'req_doc_name']
+        fields = ['id', 'max_budget', 'name', 'description', 'quantity', 'units', 'industry_category', 'req_doc', 'req_doc_name', 'req_doc_deadline']
 
 
 class RequirementsDocSerializer(serializers.ModelSerializer):

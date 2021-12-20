@@ -37,9 +37,8 @@ class ItemsAPI(APIView):
 
 	def get(self, request, pk):
 		req_doc = RequirementsDoc.objects.get(id= pk)
-		if(self.request.user.is_client == False):
-			if (datetime.date.today() - req_doc.deadline > datetime.timedelta(0)):
-				return JsonResponse({"Message": "The deadline to provide quotations for this document has passed!"})
+		if(self.request.user.is_client == False and datetime.date.today() - req_doc.deadline > datetime.timedelta(0)):
+			return JsonResponse({"Message": "The deadline to provide quotations for this document has passed!"})
 		else:
 			items_objs = Item.objects.filter(req_doc =req_doc.id)
 			serializer = ItemSerializer(items_objs, many = True)
