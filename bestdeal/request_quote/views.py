@@ -80,6 +80,21 @@ class VendorQuotesView(viewsets.ModelViewSet):
 		owner = Vendor.objects.get(email = self.request.user.email)
 		serializer.save(owner = owner)
 
+
+# class VendorQuotesView(APIView):		
+# 	permission_classes = [IsVendor]
+
+# 	def get(self, request, pk):
+# 		quote_objs = Quote.objects.filter(owner = self.request.user).filter(item__req_doc = pk)
+# 		serializer = QuoteSerializer(quote_objs, many = True)
+# 		return Response(serializer.data, status= status.HTTP_200_OK)
+
+# 	def post(self, request, pk):
+# 		owner = Vendor.objects.get(email = self.request.user.email)
+# 		serializer = ItemSerializer(data= request.data, many=True)
+# 		serializer.save(owner = owner, item = pk)
+
+
 class ClientQuotesView(APIView):
 	permission_classes = [IsClient]
 	
