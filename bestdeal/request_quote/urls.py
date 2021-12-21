@@ -14,4 +14,5 @@ urlpatterns = [
     path('req-doc/<int:pk>/final-list/', views.FinalList.as_view(), name= 'final-list'),
     path('req-doc/<int:pk>/items/', views.ItemsAPI.as_view(), name= 'items-api'),
     path('req-doc/<int:pk>/quotes/', views.ClientQuotesView.as_view(), name= 'quotes-api'),
+    #path('req-doc/<int:pk>/quote', views.VendorQuotesView)
 ]
